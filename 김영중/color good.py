@@ -2,8 +2,8 @@
 import cv2
 video = cv2.VideoCapture(0)
 cv2.namedWindow('result')
-lower_sal = (0,48,80)
-upper_sal = (20,255,255)
+lower_sal = (0,0,0)
+upper_sal = (40,255,255)
 while 1 :
     ret,img = video.read() #영상을 캠에서 불러옴
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
