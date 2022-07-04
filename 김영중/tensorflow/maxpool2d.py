@@ -22,7 +22,7 @@ model.compile(loss = 'categorical_crossentropy', metrics = 'accuracy')
 print(model.summary())
 
 model.fit(nx,ny,epochs = 10)
-model.make('number.h5')
+model.save('number.h5')
 img = cv2.imread('0.png')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 img = img.reshape(28,28,1)
