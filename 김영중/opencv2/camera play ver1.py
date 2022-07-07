@@ -1,5 +1,5 @@
 import cv2
-video = cv2.VideoCapture('vid.avi')
+video = cv2.VideoCapture(0)
 
 while 1 :
     ret,img = video.read()
