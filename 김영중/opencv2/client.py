@@ -5,10 +5,10 @@ import threading
 UDP_IP = 'kkjles50.synology.me'
 UDP_PORT = 9505
 
-def send_thread(j):
-    for k in range(2):
-        i=k*10+j
-        sock.sendto(bytes([i]) + s[i*46080:(i+1)*46080], (UDP_IP, UDP_PORT))
+def send_thread(k):
+    for j in range(2):
+        i = j*12+k
+        sock.sendto(bytes([i]) + s[i*38400:(i+1)*38400], (UDP_IP, UDP_PORT))
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -30,6 +30,8 @@ while True:
     t7 = threading.Thread(target=send_thread, args=[7])
     t8 = threading.Thread(target=send_thread, args=[8])
     t9 = threading.Thread(target=send_thread, args=[9])
+    t10 = threading.Thread(target=send_thread, args=[10])
+    t11 = threading.Thread(target=send_thread, args=[11])
     t0.start()
     t1.start()
     t2.start()
@@ -40,6 +42,8 @@ while True:
     t7.start()
     t8.start()
     t9.start()
+    t10.start()
+    t11.start()
     t0.join()
     t1.join()
     t2.join()
@@ -50,6 +54,8 @@ while True:
     t7.join()
     t8.join()
     t9.join()
+    t10.join()
+    t11.join()
     
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
