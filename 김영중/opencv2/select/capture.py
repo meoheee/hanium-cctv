@@ -14,7 +14,8 @@ while True:
         break
     for (x, y, w, h) in faces:
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            cropped = img[y:y + h, x:x + w]
+            cropped = img[y:y + h-20, x:x + w-20]
+            cropped = cv2.resize(cropped,(200,200))
             cv2.imwrite(f'train/{name}/{imgNum}.png', cropped)
             imgNum += 1
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)

@@ -14,11 +14,13 @@ while 1 :
     for (x,y,w,h) in detections:
         img_face = cv2.resize(grey[y:(y +w), x:(x+h)],(200,200))
         id, confianca = face_recognizer.predict(img_face)
+        cv2.rectangle(img,(x,y), (x+w,y+h),(0,0,255), 2)
         print(id)
         name = ''
         if id == 0:
             name = 'kim'
             cv2.putText(img,name,(x,y+w+30),font,2,(0,0,255))
+            cv2.putText(img, str(confianca), (x, y + w + 50), font, 2, (0, 0, 255))
 
     cv2.imshow('video', img)
     if cv2.waitKey(1) & 0xFF == 27:
