@@ -1,0 +1,40 @@
+.sidemenu{
+    text-align: center;
+    position: fixed;
+}
+.sidemenu ul{
+    list-style-type: none; background-color: lightcyan;
+}
+.sidemenu li {
+    display: inline-block; font-weight: bold; width: 340px; padding: 10px;
+}
+body{
+    background-color: lightblue;
+}
+#banner{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 150px;
+    height: 50px;
+}
+div{
+    position: absolute;
+}
+table{
+    position: absolute;
+}
+form{
+    position: absolute;
+}
+h1{
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    color: cornflowerblue;
+}
+tr{
+    text-align: center;
+    color: aliceblue;
+    font-size: 1.2rem;
+}

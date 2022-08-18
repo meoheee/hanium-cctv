@@ -1,0 +1,129 @@
+<html lang="en">
+    <head>
+        <title>Welcome</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+            th{
+                color:blue;
+            }
+            tr{
+                line-height: 1cm;
+            }
+            .size6{
+                width:5cm;
+            }
+            table{
+                font-family: 'Roboto Mono', sans-serif;
+            }
+        </style>
+        <link rel = "stylesheet" href = "style1.css">
+    </head>
+    <body>
+        <h1 style="color: red;">
+            Hello HTML!<br>
+            This is yunyeol's practice place!<br>
+            Please enjoy!
+        </h1>
+        <p>
+            Hi, this is my first HTML document<br>
+            My favorite site Top 5<br>
+            <a href = https://www.google.com target = "_blank" >
+                <img src = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
+            </a>
+            <table border ="1">
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>URL</th>
+                </tr>
+                <tr>
+                    <td colspan="3">Note. This is my personal opinion</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>google</td>
+                    <td>
+                        <a href = https://www.google.com target = "_blank" >
+                            https://www.google.com
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <form>
+                <table style="font-weight:bold;" font-size="1rem" border="1px">
+                    <tr style="font-size: 2rem;">
+                        <th colspan="2" >Please input your information</th>
+                    </tr>
+                    <tr>
+                        <td>First Name</td>
+                        <td ><input type="text" name="First Name" class = "size6" ></td>
+                    </tr>
+                    <tr>
+                        <td>Last Name</td>
+                        <td><input type="text" name="Last Name"></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="text" name="Email"><input type="submit" name="submit" value="Email confirm"></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input type="Password" name="Password"></td>
+                    </tr>
+                    <tr>
+                        <td>Password Confirm</td>
+                        <td><input type="Password" name="Password Confirm"></td>
+                    </tr>
+                    <tr>
+                        <td>Region</td>
+                        <td>
+                            <label for="Region" size="3">
+                                <select name="gender">
+                                    <option value="APAC">APAC</option>
+                                    <option value="America">America</option>
+                                    <option value="EMEA">EMEA</option>
+                                </select>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Membership</td>
+                        <td>
+                            <input type="checkbox" name="Free">
+                            <label for="Free">Free</label>
+                            <input type="checkbox" name="Basic">
+                            <label for="Basic">Basic</label>
+                            <input type="checkbox" name="Premium">
+                            <label for="Premium">Premium</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="sdate">Start Date/Time</label>
+                            <input type="date" name="sdate">
+                            <input type="time" name="stime">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td>
+                            <input type="number" name="Age" min="0">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Favorite color</td>
+                        <td><input type="color" name="Favorite color"></td>
+                    </tr>
+                    <tr>
+                        <td>Email Nersletter</td>
+                        <td>
+                            <input type="radio" name="Email Nersletter" value="Email Nersletter">
+                            <label for="Email Nersletter"> Yes I will receive email newsletter </label>
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" name="submit" value="Submit">
+            </form>
+        </p>
+    </body>
+</html> 
