@@ -83,6 +83,29 @@ def recvall(sock, count):
 
     return buf
 
+def recievefile(videoqueue, statusqueue):
+    TCP_IP = '192.168.1.3'
+    TCP_PORT = 9505
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((TCP_IP, TCP_PORT))
+    while 1:
+        s.listen(True)
+        conn, addr = s.accept()
+        while 1:
+            name = 'video/' + str(time.time()) + '.mkv'
+            f = open(name, 'wb')
+            length = recvall(conn, 16)
+            if not length:
+                break
+            length.decode()
+            data = recvall(conn, int(length))
+            f.write(data)
+            f.close()
+            videoqueue.put(name)
+            if not data:
+                break
+        statusqueue.put(0)
+
 
 
 if __name__=='__main__':
@@ -90,58 +113,46 @@ if __name__=='__main__':
     print(ids)
 
     imgqueue = multiprocessing.Queue(maxsize=1)
+    videoqueue = multiprocessing.Queue()
     resultqueue = multiprocessing.Queue()
+    statusqueue = multiprocessing.Queue()
     t1 = multiprocessing.Process(target=facedetect, args=(imgqueue, resultqueue, ids, train_descriptors,))
     t1.daemon = True
     t1.start()
+    t2 = multiprocessing.Process(target=recievefile, args=(videoqueue,statusqueue))
+    t2.daemon = True
+    t2.start()
 
-    TCP_IP = '192.168.1.3'
-    TCP_PORT = 9505
+
     prevtime = 0
     detections = []
-
     while 1:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind((TCP_IP, TCP_PORT))
-        s.listen(True)
-        conn, addr = s.accept()
-        print('연결')
-        savevideo = cv2.VideoWriter('vid.avi', cv2.VideoWriter_fourcc(*'XVID'), 20.0, (1280, 720))
-        while 1 :
-            currenttime = time.time()
-
-            length = recvall(conn, 16)  # 길이 16의 데이터를 먼저 수신하는 것은 여기에 이미지의 길이를 먼저 받아서 이미지를 받을 때 편리하려고 하는 것이다.
-            if not length:
+        while 1:
+            if statusqueue.empty() == False:
+                statusqueue.get()
                 break
-            length.decode()
-            stringData = recvall(conn, int(length))
-            if not stringData:
-                break
+            name = videoqueue.get()
+            video = cv2.VideoCapture(name)
+            while 1 :
+                ret, img = video.read()
+                if ret == False:
+                    break
+                if imgqueue.full() == False:
+                    imgqueue.put(img)
 
-            data = np.frombuffer(stringData, dtype='uint8')
-            decimg = cv2.imdecode(data, 1)
+                if resultqueue.empty() == False:
+                    detections = resultqueue.get()
 
-            if imgqueue.full() == False:
-                imgqueue.put(decimg)
+                for result in detections:
+                    cv2.rectangle(img, result[0], result[1], (0, 255, 255), 2)
+                    for point in result[2].parts():
+                        cv2.circle(img, (point.x, point.y), 2, (0, 255, 0), 1)
+                    cv2.putText(img, f'{result[4]},{result[3]}', (result[0][0], result[0][1]),cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 255, 0))
 
-            if resultqueue.empty() == False:
-                detections = resultqueue.get()
 
-            for result in detections:
-                cv2.rectangle(decimg, result[0], result[1], (0, 255, 255), 2)
-                for point in result[2].parts():
-                    cv2.circle(decimg, (point.x, point.y), 2, (0, 255, 0), 1)
-                cv2.putText(decimg, f'{result[4]},{result[3]}', (result[0][0], result[0][1]),cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 255, 0))
+                cv2.imshow('video', img)
+                cv2.waitKey(12)
+            video.release()
+            os.remove(name)
 
-            sec = currenttime - prevtime
-            fps = 1 / sec
-            cv2.putText(decimg, f'{fps}', (0, 100), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 255, 0))
-            prevtime = currenttime
-            cv2.imshow('video', decimg)
-            savevideo.write(decimg)
-            if cv2.waitKey(1) & 0xFF == 27:
-                break
-
-        s.close()
-        savevideo.release()
-    cv2.destroyAllWindows()
+        cv2.destroyAllWindows()
